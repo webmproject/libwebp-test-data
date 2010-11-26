@@ -114,5 +114,11 @@ f7790ba4629398f01796e9508eed2a04  test.webp.ppm
 94ee29ee02ca4df6a38e945eda63e883  test.webp.yuv
 fd59f2cb55a8d02ef7b36ad950f9fa9c  small_31x13.webp.ppm
 f1b67bd71490a997c78fe10b529c125b  small_31x13.webp.yuv
+14c716930dbcf6f0c9ae810ce1632793  small_1x13.webp.yuv
+5c13e98c3b22f3b9df1f1899fa76b593  small_1x13.webp.ppm
+8bf95bd3bf27002b50aa06805a293ab0  small_1x1.webp.yuv
+6326c1e5d8ac4a0ba4795a0ab4a788af  small_1x1.webp.ppm
+d0c03bb54602c07b5b66242e70b7a3e2  small_13x1.webp.yuv
+bc2fa7e7c56e34283446fec45fdd62f0  small_13x1.webp.ppm
 e6e26fb8cca80a5fafe6ec48e687a64e  bug3.webp.ppm
 3771f56b6b5c1e6486658dd6346cd8ab  bug3.webp.yuv
