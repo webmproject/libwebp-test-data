@@ -42,8 +42,8 @@ for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
     f="${test_dir}/${f}"
 
     # Decode the file to PPM and YUV
-    "${executable}" -o "${f}.ppm" "$f" >/dev/null
-    "${executable}" -raw -o "${f}.pgm" "$f" >/dev/null
+    "${executable}" -ppm -o "${f}.ppm" "$f" >/dev/null
+    "${executable}" -pgm -o "${f}.pgm" "$f" >/dev/null
 
     # Check the md5sums
     grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -)
