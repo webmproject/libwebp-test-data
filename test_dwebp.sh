@@ -50,4 +50,10 @@ for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
 
     # Clean up.
     rm -f ${f}.{ppm,pgm}
+
+    # Decode again, without optimization this time
+    "${executable}" -noasm -ppm -o "${f}.ppm" "$f" >/dev/null
+    "${executable}" -noasm -pgm -o "${f}.pgm" "$f" >/dev/null
+    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -)
+    rm -f ${f}.{ppm,pgm}
 done
