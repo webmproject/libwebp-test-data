@@ -1,7 +1,7 @@
 List of features used in each test vector.
 All the 'lossless_vec_1_*.webp' WebP files should decode to an image comparable to 'grid.pam' or,
 equivalently 'grid.png'.
-This synthetic picture is made of 16x16 grid-alterning pixels with RGBA values equal to
+This synthetic picture is made of 16x16 grid-alternating pixels with RGBA values equal to
 blue B=(0,0,255,255) and half-transparent red R=(255,0,0,128), according to
 the pattern:
 BRBRBRBRBRBRBRBR
