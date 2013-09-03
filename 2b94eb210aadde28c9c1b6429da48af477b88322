@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdH///bQ\u003d",
+        "filename": "test_dwebp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002219
+      },
+      "writtenOn": "2013-09-03T21:12:02Z",
+      "side": 1,
+      "message": "probably safe either way, but \u0027\u0026\u003e\u0027 is the canonical form",
+      "revId": "2b94eb210aadde28c9c1b6429da48af477b88322",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
