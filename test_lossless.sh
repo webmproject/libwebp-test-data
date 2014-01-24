@@ -24,7 +24,7 @@ for opt; do
 done
 
 executable=${executable:-dwebp}
-"$executable" 2>/dev/null | grep -q Usage || usage
+${executable} 2>/dev/null | grep -q Usage || usage
 
 for i in `seq 0 15`; do
     file="lossless_vec_1_$i.webp"

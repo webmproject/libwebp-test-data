@@ -39,15 +39,15 @@ fi
 
 # Validate test executable
 executable=${executable:-dwebp}
-"$executable" 2>/dev/null | grep -q Usage || usage
+${executable} 2>/dev/null | grep -q Usage || usage
 
 test_dir=$(dirname ${tests})
 for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
     f="${test_dir}/${f}"
 
     # Decode the file to PPM and YUV
-    "${executable}" ${mt} -ppm -o "${f}.ppm" "$f" > /dev/null 2>&1
-    "${executable}" ${mt} -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
+    ${executable} ${mt} -ppm -o "${f}.ppm" "$f" > /dev/null 2>&1
+    ${executable} ${mt} -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
 
     # Check the md5sums
     grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -)
@@ -56,8 +56,8 @@ for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
     rm -f "${f}.pgm" "${f}.ppm"
 
     # Decode again, without optimization this time
-    "${executable}" ${mt} -noasm -ppm -o "${f}.ppm" "$f" > /dev/null 2>&1
-    "${executable}" ${mt} -noasm -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
+    ${executable} ${mt} -noasm -ppm -o "${f}.ppm" "$f" > /dev/null 2>&1
+    ${executable} ${mt} -noasm -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
     grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -)
     rm -f "${f}.pgm" "${f}.ppm"
 done
