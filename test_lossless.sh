@@ -22,20 +22,21 @@ for opt; do
         *) usage;;
     esac
 done
+test_file_dir=$(dirname $self)
 
 executable=${executable:-dwebp}
 ${executable} 2>/dev/null | grep -q Usage || usage
 
 for i in `seq 0 15`; do
-    file="lossless_vec_1_$i.webp"
+    file="$test_file_dir/lossless_vec_1_$i.webp"
     ${executable} $file -o test.pam -pam
-    diff test.pam grid.pam || exit -1
+    diff test.pam $test_file_dir/grid.pam || exit -1
 done
 
 for i in `seq 0 15`; do
-    file="lossless_vec_2_$i.webp"
+    file="$test_file_dir/lossless_vec_2_$i.webp"
     ${executable} $file -o test.pam -pam
-    diff test.pam peak.pam || exit -1
+    diff test.pam $test_file_dir/peak.pam || exit -1
 done
 
 rm -f test.pam
