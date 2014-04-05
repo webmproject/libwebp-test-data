@@ -8,6 +8,7 @@
 ## This file distributed under the same terms as libwebp. See the libwebp
 ## COPYING file for more information.
 ##
+set -e
 
 self=$0
 usage() {
@@ -30,13 +31,13 @@ ${executable} 2>/dev/null | grep -q Usage || usage
 for i in `seq 0 15`; do
     file="$test_file_dir/lossless_vec_1_$i.webp"
     ${executable} $file -o test.pam -pam
-    diff test.pam $test_file_dir/grid.pam || exit -1
+    diff test.pam $test_file_dir/grid.pam
 done
 
 for i in `seq 0 15`; do
     file="$test_file_dir/lossless_vec_2_$i.webp"
     ${executable} $file -o test.pam -pam
-    diff test.pam $test_file_dir/peak.pam || exit -1
+    diff test.pam $test_file_dir/peak.pam
 done
 
 rm -f test.pam
