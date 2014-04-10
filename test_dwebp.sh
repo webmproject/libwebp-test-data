@@ -50,7 +50,7 @@ for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
     ${executable} ${mt} -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
 
     # Check the md5sums
-    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -)
+    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -) || exit 1
 
     # Clean up.
     rm -f "${f}.pgm" "${f}.ppm"
@@ -58,6 +58,6 @@ for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
     # Decode again, without optimization this time
     ${executable} ${mt} -noasm -ppm -o "${f}.ppm" "$f" > /dev/null 2>&1
     ${executable} ${mt} -noasm -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
-    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -)
+    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -) || exit 1
     rm -f "${f}.pgm" "${f}.ppm"
 done
