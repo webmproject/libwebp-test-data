@@ -16,6 +16,24 @@
       "revId": "4c3395958faa4c59af470411452d09876c859a17",
       "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "AAAAdn//upQ\u003d",
+        "filename": "test_lossless.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002219
+      },
+      "writtenOn": "2014-04-10T06:18:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "AAAAdn//uqE\u003d",
+      "revId": "4c3395958faa4c59af470411452d09876c859a17",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
     }
   ]
 }
