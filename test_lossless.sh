@@ -17,7 +17,7 @@ usage() {
 }
 
 for opt; do
-    optval=${opt##*=}
+    optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
         *) usage;;
