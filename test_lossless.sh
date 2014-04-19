@@ -23,15 +23,17 @@ check() {
     local outfile="$1.pam"
     local reffile="$2"
     shift 2
-    ${executable} "$infile" -o "$outfile" -pam "$@" > /dev/null 2>&1
+    eval ${executable} "$infile" -o "$outfile" -pam "$@" ${devnull}
     diff -s "$outfile" "$reffile"
     rm -f "$outfile"
 }
 
+devnull="> /dev/null 2>&1"
 for opt; do
     optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
+        -v) devnull="";;
         *) usage;;
     esac
 done
