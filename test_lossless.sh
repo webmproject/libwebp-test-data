@@ -16,6 +16,18 @@ usage() {
     exit 1
 }
 
+# Decode $1 as a pam and compare to $2. Additional parameters are passed to the
+# executable.
+check() {
+    local infile="$1"
+    local outfile="$1.pam"
+    local reffile="$2"
+    shift 2
+    ${executable} "$infile" -o "$outfile" -pam "$@" > /dev/null 2>&1
+    diff -s "$outfile" "$reffile"
+    rm -f "$outfile"
+}
+
 for opt; do
     optval=${opt#*=}
     case ${opt} in
@@ -30,15 +42,14 @@ ${executable} 2>/dev/null | grep -q Usage || usage
 
 for i in `seq 0 15`; do
     file="$test_file_dir/lossless_vec_1_$i.webp"
-    ${executable} $file -o test.pam -pam > /dev/null 2>&1
-    diff -s test.pam $test_file_dir/grid.pam
+    check "$file" "$test_file_dir/grid.pam"
+    check "$file" "$test_file_dir/grid.pam" -noasm
 done
 
 for i in `seq 0 15`; do
     file="$test_file_dir/lossless_vec_2_$i.webp"
-    ${executable} $file -o test.pam -pam > /dev/null 2>&1
-    diff -s test.pam $test_file_dir/peak.pam
+    check "$file" "$test_file_dir/peak.pam"
+    check "$file" "$test_file_dir/peak.pam" -noasm
 done
 
 echo "ALL TESTS OK"
-rm -f test.pam
