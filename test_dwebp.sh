@@ -20,6 +20,21 @@ EOT
     exit 1
 }
 
+# Decode $1 and verify against md5s.
+check() {
+    local f="$1"
+    shift
+    # Decode the file to PPM and YUV
+    ${executable} ${mt} -ppm "$@" -o "${f}.ppm" "$f" > /dev/null 2>&1
+    ${executable} ${mt} -pgm "$@" -o "${f}.pgm" "$f" > /dev/null 2>&1
+
+    # Check the md5sums
+    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -) || exit 1
+
+    # Clean up.
+    rm -f "${f}.pgm" "${f}.ppm"
+}
+
 mt=""
 for opt; do
     optval=${opt#*=}
@@ -44,20 +59,8 @@ ${executable} 2>/dev/null | grep -q Usage || usage
 test_dir=$(dirname ${tests})
 for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
     f="${test_dir}/${f}"
-
-    # Decode the file to PPM and YUV
-    ${executable} ${mt} -ppm -o "${f}.ppm" "$f" > /dev/null 2>&1
-    ${executable} ${mt} -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
-
-    # Check the md5sums
-    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -) || exit 1
-
-    # Clean up.
-    rm -f "${f}.pgm" "${f}.ppm"
+    check "$f"
 
     # Decode again, without optimization this time
-    ${executable} ${mt} -noasm -ppm -o "${f}.ppm" "$f" > /dev/null 2>&1
-    ${executable} ${mt} -noasm -pgm -o "${f}.pgm" "$f" > /dev/null 2>&1
-    grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -) || exit 1
-    rm -f "${f}.pgm" "${f}.ppm"
+    check "$f" -noasm
 done
