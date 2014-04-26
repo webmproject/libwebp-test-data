@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "AAAAdn//sHc\u003d",
+        "filename": "test_cwebp.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002219
+      },
+      "writtenOn": "2014-04-26T18:59:07Z",
+      "side": 1,
+      "message": "not needed here actually, the || usage would cause an exit",
+      "revId": "cf4a3ca5ce0c4733f59b2182eed68b3c74a50ef0",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
