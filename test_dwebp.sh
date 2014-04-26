@@ -25,8 +25,8 @@ check() {
     local f="$1"
     shift
     # Decode the file to PPM and YUV
-    ${executable} ${mt} -ppm "$@" -o "${f}.ppm" "$f" > /dev/null 2>&1
-    ${executable} ${mt} -pgm "$@" -o "${f}.pgm" "$f" > /dev/null 2>&1
+    eval ${executable} ${mt} -ppm "$@" -o "${f}.ppm" "$f" ${devnull}
+    eval ${executable} ${mt} -pgm "$@" -o "${f}.pgm" "$f" ${devnull}
 
     # Check the md5sums
     grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -) || exit 1
@@ -36,11 +36,13 @@ check() {
 }
 
 mt=""
+devnull="> /dev/null 2>&1"
 for opt; do
     optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
         --mt) mt="-mt";;
+        -v) devnull="";;
         -*) usage;;
         *) [ -z "$tests" ] || usage; tests="$opt";;
     esac
