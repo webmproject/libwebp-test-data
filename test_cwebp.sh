@@ -8,7 +8,6 @@
 ## This file distributed under the same terms as libwebp. See the libwebp
 ## COPYING file for more information.
 ##
-set -e
 
 self=$0
 
@@ -18,6 +17,7 @@ Usage: $self [options] <source files to test>
 
 Options:
   --exec=</path/to/cwebp>
+  --md5exec=</path/to/md5sum/replacement>
   --loop=<count>
   --nocheck
   --mt
@@ -35,9 +35,9 @@ run() {
 check() {
     # test the optimized vs. unoptimized versions. this is a bit
     # fragile, but good enough for optimization testing.
-    md5=$({ ${executable} -o - $file || echo "fail1"; } | md5sum)
-    md5_noasm=$( { ${executable} -noasm -o - $file || echo "fail2"; } | md5sum)
-
+    md5=$({ ${executable} -o - $file || echo "fail1"; } | ${md5exec})
+    md5_noasm=$( { ${executable} -noasm -o - $file || echo "fail2"; } | ${md5exec})
+    
     printf "$file:\t"
     if [ "$md5" = "$md5_noasm" ]; then
         printf "OK\n"
@@ -51,11 +51,14 @@ check="true"
 noalpha=""
 lossless=""
 mt=""
+md5exec="md5sum"
+
 n=1
 for opt; do
     optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
+        --md5exec=*) md5exec="${optval}";;
         --loop=*) n="${optval}";;
         --mt) mt="-mt";;
         --lossless) lossless="-lossless";;
@@ -70,9 +73,11 @@ done
 [ $# -gt 0 ] || usage
 [ "$n" -gt 0 ] || usage
 
+set -e
 executable=${executable:-cwebp}
 ${executable} 2>/dev/null | grep -q Usage || usage
 executable="${executable} -quiet ${mt} ${lossless} ${noalpha}"
+set +e
 
 if [ "$check" = "true" ]; then
     TEST=check
