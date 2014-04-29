@@ -20,10 +20,10 @@ usage() {
 # executable.
 check() {
     local infile="$1"
-    local outfile="$1.pam"
     local reffile="$2"
+    local outfile="$infile.${reffile##*.}"
     shift 2
-    eval ${executable} "$infile" -o "$outfile" -pam "$@" ${devnull}
+    eval ${executable} "$infile" -o "$outfile" "$@" ${devnull}
     diff -s "$outfile" "$reffile"
     rm -f "$outfile"
 }
@@ -44,14 +44,18 @@ ${executable} 2>/dev/null | grep -q Usage || usage
 
 for i in `seq 0 15`; do
     file="$test_file_dir/lossless_vec_1_$i.webp"
-    check "$file" "$test_file_dir/grid.pam"
-    check "$file" "$test_file_dir/grid.pam" -noasm
+    check "$file" "$test_file_dir/grid.pam" -pam
+    check "$file" "$test_file_dir/grid.pam" -pam -noasm
 done
 
 for i in `seq 0 15`; do
     file="$test_file_dir/lossless_vec_2_$i.webp"
-    check "$file" "$test_file_dir/peak.pam"
-    check "$file" "$test_file_dir/peak.pam" -noasm
+    check "$file" "$test_file_dir/peak.pam" -pam
+    check "$file" "$test_file_dir/peak.pam" -pam -noasm
 done
+
+file="$test_file_dir/lossless_color_transform.webp"
+check "$file" "$test_file_dir/lossless_color_transform.ppm" -ppm
+check "$file" "$test_file_dir/lossless_color_transform.ppm" -ppm -noasm
 
 echo "ALL TESTS OK"
