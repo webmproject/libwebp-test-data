@@ -92,3 +92,4 @@ while [ $n -gt 0 ]; do
     n=$((n - 1))
     printf "DONE (%d of %d)\n" $(($N - $n)) $N
 done
+# test
