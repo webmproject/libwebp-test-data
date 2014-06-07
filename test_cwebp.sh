@@ -23,6 +23,7 @@ Options:
   --mt
   --noalpha
   --lossless
+  --extra_args=<cwebp args>
 EOT
     exit 1
 }
@@ -52,6 +53,7 @@ noalpha=""
 lossless=""
 mt=""
 md5exec="md5sum"
+extra_args=""
 
 n=1
 for opt; do
@@ -64,6 +66,7 @@ for opt; do
         --lossless) lossless="-lossless";;
         --noalpha) noalpha="-noalpha";;
         --nocheck) check="";;
+        --extra_args=*) extra_args="${optval}";;
         -*) usage;;
         *) break;;
     esac
@@ -75,7 +78,7 @@ done
 
 executable=${executable:-cwebp}
 ${executable} 2>/dev/null | grep -q Usage || usage
-executable="${executable} -quiet ${mt} ${lossless} ${noalpha}"
+executable="${executable} -quiet ${mt} ${lossless} ${noalpha} ${extra_args}"
 set +e
 
 if [ "$check" = "true" ]; then
