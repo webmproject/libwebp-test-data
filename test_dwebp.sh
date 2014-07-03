@@ -15,7 +15,12 @@ self=$0
 
 usage() {
     cat <<EOT
-Usage: $self [--exec=/path/to/dwebp] [--mt] /path/to/libwebp_tests.md5
+Usage: $self [options] [/path/to/libwebp_tests.md5]
+
+Options:
+  --exec=/path/to/dwebp
+  --mt
+  --formats=format_list (default: $formats)
 EOT
     exit 1
 }
@@ -24,23 +29,29 @@ EOT
 check() {
     local f="$1"
     shift
-    # Decode the file to PPM and YUV
-    eval ${executable} ${mt} -ppm "$@" -o "${f}.ppm" "$f" ${devnull}
-    eval ${executable} ${mt} -pgm "$@" -o "${f}.pgm" "$f" ${devnull}
+    # Decode the file to the requested formats.
+    for fmt in $formats; do
+      eval ${executable} ${mt} -${fmt} "$@" -o "${f}.${fmt}" "$f" ${devnull}
+    done
 
     # Check the md5sums
     grep ${f##*/} "$tests" | (cd $(dirname $f); md5sum -c -) || exit 1
 
     # Clean up.
-    rm -f "${f}.pgm" "${f}.ppm"
+    for fmt in $formats; do
+      rm -f "${f}.${fmt}"
+    done
 }
 
+# PPM (RGB), PAM (RGBA), PGM (YUV), BMP (BGRA/BGR), TIFF (rgbA/RGB)
+formats="ppm pam pgm bmp tiff"
 mt=""
 devnull="> /dev/null 2>&1"
 for opt; do
     optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
+        --formats=*) formats="${optval}";;
         --mt) mt="-mt";;
         -v) devnull="";;
         -*) usage;;
@@ -59,7 +70,7 @@ executable=${executable:-dwebp}
 ${executable} 2>/dev/null | grep -q Usage || usage
 
 test_dir=$(dirname ${tests})
-for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\....,webp,' | uniq); do
+for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\..*$,webp,' | uniq); do
     f="${test_dir}/${f}"
     check "$f"
 
