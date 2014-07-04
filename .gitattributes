@@ -1,0 +1,5 @@
+*.bmp -text -diff
+*.pam -text -diff
+*.pgm -text -diff
+*.ppm -text -diff
+*.tiff -text -diff
