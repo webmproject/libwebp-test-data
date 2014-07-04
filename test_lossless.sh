@@ -12,7 +12,13 @@ set -e
 
 self=$0
 usage() {
-    echo "Usage: $self [--exec=/path/to/dwebp]"
+    cat <<EOT
+Usage: $self [options]
+
+Options:
+  --exec=/path/to/dwebp
+  --formats=format_list (default: $formats)
+EOT
     exit 1
 }
 
@@ -28,11 +34,14 @@ check() {
     rm -f "$outfile"
 }
 
+# PPM (RGB), PAM (RGBA), PGM (YUV), BMP (BGRA/BGR), TIFF (rgbA/RGB)
+formats="ppm pam pgm bmp tiff"
 devnull="> /dev/null 2>&1"
 for opt; do
     optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
+        --formats=*) formats="${optval}";;
         -v) devnull="";;
         *) usage;;
     esac
@@ -43,19 +52,25 @@ executable=${executable:-dwebp}
 ${executable} 2>/dev/null | grep -q Usage || usage
 
 for i in `seq 0 15`; do
-    file="$test_file_dir/lossless_vec_1_$i.webp"
-    check "$file" "$test_file_dir/grid.pam" -pam
-    check "$file" "$test_file_dir/grid.pam" -pam -noasm
+    for fmt in $formats; do
+        file="$test_file_dir/lossless_vec_1_$i.webp"
+        check "$file" "$test_file_dir/grid.$fmt" -$fmt
+        check "$file" "$test_file_dir/grid.$fmt" -$fmt -noasm
+    done
 done
 
 for i in `seq 0 15`; do
-    file="$test_file_dir/lossless_vec_2_$i.webp"
-    check "$file" "$test_file_dir/peak.pam" -pam
-    check "$file" "$test_file_dir/peak.pam" -pam -noasm
+    for fmt in $formats; do
+        file="$test_file_dir/lossless_vec_2_$i.webp"
+        check "$file" "$test_file_dir/peak.$fmt" -$fmt
+        check "$file" "$test_file_dir/peak.$fmt" -$fmt -noasm
+    done
 done
 
-file="$test_file_dir/lossless_color_transform.webp"
-check "$file" "$test_file_dir/lossless_color_transform.ppm" -ppm
-check "$file" "$test_file_dir/lossless_color_transform.ppm" -ppm -noasm
+for fmt in $formats; do
+    file="$test_file_dir/lossless_color_transform.webp"
+    check "$file" "$test_file_dir/lossless_color_transform.$fmt" -$fmt
+    check "$file" "$test_file_dir/lossless_color_transform.$fmt" -$fmt -noasm
+done
 
 echo "ALL TESTS OK"
