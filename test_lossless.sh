@@ -30,7 +30,7 @@ check() {
     local outfile="$infile.${reffile##*.}"
     shift 2
     eval ${executable} "$infile" -o "$outfile" "$@" ${devnull}
-    diff -s "$outfile" "$reffile"
+    diff -q -s "$outfile" "$reffile"
     rm -f "$outfile"
 }
 
