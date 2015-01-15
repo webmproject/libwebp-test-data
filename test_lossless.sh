@@ -51,7 +51,8 @@ test_file_dir=$(dirname $self)
 executable=${executable:-dwebp}
 ${executable} 2>/dev/null | grep -q Usage || usage
 
-for i in `seq 0 15`; do
+vectors="0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15"
+for i in $vectors; do
     for fmt in $formats; do
         file="$test_file_dir/lossless_vec_1_$i.webp"
         check "$file" "$test_file_dir/grid.$fmt" -$fmt
@@ -59,7 +60,7 @@ for i in `seq 0 15`; do
     done
 done
 
-for i in `seq 0 15`; do
+for i in $vectors; do
     for fmt in $formats; do
         file="$test_file_dir/lossless_vec_2_$i.webp"
         check "$file" "$test_file_dir/peak.$fmt" -$fmt
