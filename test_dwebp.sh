@@ -22,6 +22,7 @@ Options:
   --md5exec=</path/to/md5sum/replacement> (must support '-c')
   --mt
   --formats=format_list (default: $formats)
+  --dump-md5s
 EOT
     exit 1
 }
@@ -35,8 +36,14 @@ check() {
       eval ${executable} ${mt} -${fmt} "$@" -o "${f}.${fmt}" "$f" ${devnull}
     done
 
-    # Check the md5sums
-    grep ${f##*/} "$tests" | (cd $(dirname $f); ${md5exec} -c -) || exit 1
+    if [ "$dump_md5s" = "true" ]; then
+      for fmt in $formats; do
+        (cd $(dirname $f); ${md5exec} "${f##*/}.${fmt}")
+      done
+    else
+      # Check the md5sums
+      grep ${f##*/} "$tests" | (cd $(dirname $f); ${md5exec} -c -) || exit 1
+    fi
 
     # Clean up.
     for fmt in $formats; do
@@ -45,16 +52,18 @@ check() {
 }
 
 # PPM (RGB), PAM (RGBA), PGM (YUV), BMP (BGRA/BGR), TIFF (rgbA/RGB)
-formats="ppm pam pgm bmp tiff"
+formats="bmp pam pgm ppm tiff"
 mt=""
 md5exec="md5sum"
 devnull="> /dev/null 2>&1"
+dump_md5s="false"
 for opt; do
     optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
         --md5exec=*) md5exec="${optval}";;
         --formats=*) formats="${optval}";;
+        --dump-md5s) dump_md5s="true";;
         --mt) mt="-mt";;
         -v) devnull="";;
         -*) usage;;
@@ -77,6 +86,8 @@ for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\..*$,webp,' | uniq); do
     f="${test_dir}/${f}"
     check "$f"
 
-    # Decode again, without optimization this time
-    check "$f" -noasm
+    if [ "$dump_md5s" = "false" ]; then
+      # Decode again, without optimization this time
+      check "$f" -noasm
+    fi
 done
