@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c835514_e13cb1f1",
+        "filename": "test_dwebp.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1002219
+      },
+      "writtenOn": "2017-01-28T21:43:52Z",
+      "side": 1,
+      "message": "this one could use a bit more testing for compatibility, but it works under linux/mac/android for me.",
+      "revId": "96518fd5ccbd4197ed01719c619a8021f61c3bf8",
+      "serverId": "3ce6091f-6c88-37e8-8c75-72f92ae8dfba",
+      "unresolved": false
+    }
+  ]
+}
