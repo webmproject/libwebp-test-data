@@ -30,8 +30,11 @@ check() {
     local reffile="$2"
     local outfile="$infile.${reffile##*.}"
     shift 2
-    eval ${executable} "$infile" ${extra_args} -o "$outfile" "$@" ${devnull}
-    diff -q -s "$outfile" "$reffile"
+    printf "${outfile##*/}: "
+    eval ${executable} "$infile" $extra_args -o "$outfile" "$@" ${devnull}
+    cmp "$outfile" "$reffile"
+    echo "OK"
+
     rm -f "$outfile"
 }
 
