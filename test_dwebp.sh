@@ -85,7 +85,7 @@ executable=${executable:-dwebp}
 ${executable} 2>/dev/null | grep -q Usage || usage
 
 test_dir=$(dirname ${tests})
-for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\..*$,webp,' | uniq); do
+for f in $(grep -o '[[:alnum:]_-]*\.webp' "$tests" | uniq); do
     f="${test_dir}/${f}"
     check "$f"
 
@@ -94,3 +94,5 @@ for f in $(awk '{print $2}' "$tests" | sed -e 's,webp\..*$,webp,' | uniq); do
       check "$f" -noasm
     fi
 done
+
+echo "DONE"
