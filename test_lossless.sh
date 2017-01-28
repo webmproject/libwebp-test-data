@@ -17,6 +17,7 @@ Usage: $self [options]
 
 Options:
   --exec=/path/to/dwebp
+  --extra_args=<dwebp args>
   --formats=format_list (default: $formats)
 EOT
     exit 1
@@ -29,7 +30,7 @@ check() {
     local reffile="$2"
     local outfile="$infile.${reffile##*.}"
     shift 2
-    eval ${executable} "$infile" -o "$outfile" "$@" ${devnull}
+    eval ${executable} "$infile" ${extra_args} -o "$outfile" "$@" ${devnull}
     diff -q -s "$outfile" "$reffile"
     rm -f "$outfile"
 }
@@ -41,6 +42,7 @@ for opt; do
     optval=${opt#*=}
     case ${opt} in
         --exec=*) executable="${optval}";;
+        --extra_args=*) extra_args="${optval}";;
         --formats=*) formats="${optval}";;
         -v) devnull="";;
         *) usage;;

@@ -21,6 +21,7 @@ Options:
   --exec=/path/to/dwebp
   --md5exec=</path/to/md5sum/replacement> (must support '-c')
   --mt
+  --extra_args=<dwebp args>
   --formats=format_list (default: $formats)
   --dump-md5s
 EOT
@@ -33,7 +34,8 @@ check() {
     shift
     # Decode the file to the requested formats.
     for fmt in $formats; do
-      eval ${executable} ${mt} -${fmt} "$@" -o "${f}.${fmt}" "$f" ${devnull}
+      eval ${executable} ${mt} -${fmt} ${extra_args} "$@" \
+        -o "${f}.${fmt}" "$f" ${devnull}
     done
 
     if [ "$dump_md5s" = "true" ]; then
@@ -65,6 +67,7 @@ for opt; do
         --formats=*) formats="${optval}";;
         --dump-md5s) dump_md5s="true";;
         --mt) mt="-mt";;
+        --extra_args=*) extra_args="${optval}";;
         -v) devnull="";;
         -*) usage;;
         *) [ -z "$tests" ] || usage; tests="$opt";;
