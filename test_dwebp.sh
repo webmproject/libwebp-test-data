@@ -43,8 +43,11 @@ check() {
         (cd $(dirname $f); ${md5exec} "${f##*/}.${fmt}")
       done
     else
-      # Check the md5sums
-      grep ${f##*/} "$tests" | (cd $(dirname $f); ${md5exec} -c -) || exit 1
+      for fmt in $formats; do
+        # Check the md5sums
+        grep ${f##*/}.${fmt} "$tests" | (cd $(dirname $f); ${md5exec} -c -) \
+          || exit 1
+      done
     fi
 
     # Clean up.
