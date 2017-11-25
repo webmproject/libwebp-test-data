@@ -38,15 +38,14 @@ check() {
         -o "${f}.${fmt}" "$f" ${devnull}
     done
 
-    if [ "$dump_md5s" = "true" ]; then
-      for fmt in $formats; do
-        (cd $(dirname $f); ${md5exec} "${f##*/}.${fmt}")
-      done
-    else
-      # Check the md5sums
-      grep ${f##*/} "$tests" | (cd $(dirname $f); ${md5exec} -c -) || exit 1
-    fi
-
+    for fmt in $formats; do
+      if [ "$dump_md5s" = "true" ]; then
+          (cd $(dirname $f); ${md5exec} "${f##*/}.${fmt}")
+      else
+        # Check the md5sums
+        grep ${f##*/}.${fmt} "$tests" | (cd $(dirname $f); ${md5exec} -c -) || exit 1
+      fi
+    done
     # Clean up.
     for fmt in $formats; do
       rm -f "${f}.${fmt}"
