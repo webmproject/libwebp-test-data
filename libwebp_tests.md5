@@ -463,4 +463,8 @@ a23482cf9c7e4ed2c4e5bc2534455dcb  near_lossless_75.webp.tiff
 28a26055225a9b5086c05aaf7b73e3ec  color_cache_bits_11.webp.pgm
 ebdd46e0760b2a4891e6550b37c00660  color_cache_bits_11.webp.ppm
 a956c5897f57ca3432c3eff371e577f5  color_cache_bits_11.webp.tiff
-DONE
+7823bb625c9002171398fa5a190fe326  big_endian_bug_393.webp.bmp
+7d41a1e1f15453ee91fc05b0b92ff13b  big_endian_bug_393.webp.pam
+1700bae9a667cd9478ba2b8a969491df  big_endian_bug_393.webp.pgm
+f8d4f927b7dc47d52265a7951b6eb891  big_endian_bug_393.webp.ppm
+ffc5abfa7d15035bafc4285faece9b9a  big_endian_bug_393.webp.tiff
