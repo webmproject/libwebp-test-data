@@ -468,3 +468,8 @@ a956c5897f57ca3432c3eff371e577f5  color_cache_bits_11.webp.tiff
 1700bae9a667cd9478ba2b8a969491df  big_endian_bug_393.webp.pgm
 f8d4f927b7dc47d52265a7951b6eb891  big_endian_bug_393.webp.ppm
 ffc5abfa7d15035bafc4285faece9b9a  big_endian_bug_393.webp.tiff
+26a90ddfe0a3db7aaa5476c36bc12a5c  one_color_no_palette.webp.bmp
+072fae41cc90c68ac5a2c6ec142c8336  one_color_no_palette.webp.pam
+007a55a92c8a30aebe871a306101bc78  one_color_no_palette.webp.pgm
+7a78b4d026f256887897bed7f84de225  one_color_no_palette.webp.ppm
+02c3b670d9082c52f5bc089c669f0f85  one_color_no_palette.webp.tiff
