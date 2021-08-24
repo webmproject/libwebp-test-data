@@ -473,3 +473,8 @@ ffc5abfa7d15035bafc4285faece9b9a  big_endian_bug_393.webp.tiff
 007a55a92c8a30aebe871a306101bc78  one_color_no_palette.webp.pgm
 7a78b4d026f256887897bed7f84de225  one_color_no_palette.webp.ppm
 02c3b670d9082c52f5bc089c669f0f85  one_color_no_palette.webp.tiff
+16de9f44ab784a4955e3853c96ad6191  dual_transform.webp.bmp
+38ffeb42e849b78e84ae428851da9f79  dual_transform.webp.pam
+2d2b26ffe350eb37d3cfa8b8ffa047b7  dual_transform.webp.pgm
+90e3439078b4e8083e11e4b56194ca65  dual_transform.webp.ppm
+2d05d89b2664827e7484812d2f3e37fc  dual_transform.webp.tiff
